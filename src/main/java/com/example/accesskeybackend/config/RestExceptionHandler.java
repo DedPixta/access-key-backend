@@ -2,6 +2,7 @@ package com.example.accesskeybackend.config;
 
 import com.example.accesskeybackend.exception.AlreadyActivatedException;
 import com.example.accesskeybackend.exception.IllegalArgumentException;
+import com.example.accesskeybackend.exception.IpReachabilityException;
 import com.example.accesskeybackend.exception.NotFoundException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -45,6 +46,12 @@ public class RestExceptionHandler {
                 .toList();
 
         return new ExceptionResponse(exceptions);
+    }
+
+    @ExceptionHandler(value = IpReachabilityException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionResponse ipIsNotReachable(final IpReachabilityException ex) {
+        return new ExceptionResponse(List.of(ex.getMessage()));
     }
 
 
